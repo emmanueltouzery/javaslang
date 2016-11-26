@@ -3484,6 +3484,23 @@ def generateTestClasses(): Unit = {
   */
   def genApplicativeTests(): Unit = {
 
+    def genOptionTests(test: String, assertThat: String): String = {
+      (1 to N).gen(i => {
+        val liftParams = (1 to i).gen(j => s"Integer i$j")(", ")
+        val liftBody = (1 to i).gen(j => s"i$j")(" + ")
+        val applyParams = (1 to i).gen(j => s"Option.of($j)")(", ")
+        val expected = (1 to i).toList.sum
+        xs"""
+
+        @$test
+        public void shouldLiftOption$i() {
+          $assertThat(Applicative.liftOption(($liftParams) -> $liftBody).apply($applyParams)).isEqualTo(Option.of($expected));
+        }
+
+        """
+      })
+    }
+
     genJavaslangFile("javaslang.control", s"ApplicativeTest", baseDir = TARGET_TEST)((im: ImportManager, packageName, className) => {
       val test = im.getType("org.junit.Test")
       val assertThat = im.getStatic("org.assertj.core.api.Assertions.assertThat")
@@ -3491,10 +3508,7 @@ def generateTestClasses(): Unit = {
 
         public class ApplicativeTest {
 
-            @$test
-            public void shouldLiftOption2() {
-                $assertThat(Applicative.liftOption((Integer a, Integer b) -> a+b).apply(Option.of(1), Option.of(2))).isEqualTo(Option.of(3));
-            }
+            ${genOptionTests(test, assertThat)}
         }
       """
     })
