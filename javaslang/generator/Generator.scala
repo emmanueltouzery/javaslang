@@ -2468,13 +2468,15 @@ def genApplicative(): Unit = {
           case 2 => BiFunctionType
           case _ => s"Function$i"
         }
+        val generics = (1 to i+1).gen(j => s"T$j")(", ")
+        val resultGenerics = (1 to i+1).gen(j => s"$typeName<T$j>")(", ")
         val params = (1 to i).gen(j => s"a$j")(", ")
         def applyLevel(l: Int): String = {
           s"a$l.flatMap(a$l -> ${if (l<i) applyLevel(l+1) else s"f.apply()"})"
         }
         xs"""
 
-        public static <T,U,V> $functionType<$typeName<T>,$typeName<U>,$typeName<V>> lift$typeName($functionType<T, U, V> f) {
+        public static <$generics> $functionType<$resultGenerics> lift$typeName($functionType<$generics> f) {
           return ($params) -> ${applyLevel(1)};
           return (a, b) -> a.flatMap(a1 -> b.map(b1 -> f.apply(a1, b1)));
         }
@@ -2484,8 +2486,9 @@ def genApplicative(): Unit = {
 
     def genApplicativeFile(im: ImportManager, packageName: String, className: String): String = {
       xs"""
-        import javaslang.Function2;
+        ${(1 to N).gen(j => s"import javaslang.Function$j;")("\n")}
         import javaslang.control.Option;
+        import javaslang.control.Try;
         import java.util.function.BiFunction;
 
         /**
