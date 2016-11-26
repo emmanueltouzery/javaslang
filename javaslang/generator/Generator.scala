@@ -2489,6 +2489,38 @@ def generateMainClasses(): Unit = {
       })
     }
 
+    def genApplicativeEither(im: ImportManager): String = {
+
+      val FunctionType = im.getType("java.util.function.Function")
+      val BiFunctionType = im.getType("java.util.function.BiFunction")
+
+      (1 to N).gen(i => {
+        val functionType = i match {
+          case 1 => FunctionType
+          case 2 => BiFunctionType
+          case _ => s"Function$i"
+        }
+        val generics = (1 to i+1).gen(j => s"T$j")(", ")
+        val resultGenerics = (1 to i+1).gen(j => s"Either<E, T$j>")(", ")
+        val params = (1 to i).gen(j => s"a$j")(", ")
+        val resultParams = (1 to i).gen(j => s"b$j")(", ")
+        def applyLevel(l: Int): String = {
+          if (l == i) {
+            s"a${l}.map(b${l} -> f.apply(${resultParams}))"
+          } else {
+            s"a$l.flatMap(b${l} -> ${applyLevel(l+1)})"
+          }
+        }
+        xs"""
+
+        public static <E,$generics> $functionType<$resultGenerics> liftEither($functionType<$generics> f) {
+          return ($params) -> ${applyLevel(1)};
+        }
+
+        """
+      })
+    }
+
     def genApplicativeFile(im: ImportManager, packageName: String, className: String): String = {
       xs"""
         ${(1 to N).gen(j => s"import javaslang.Function$j;")("\n")}
@@ -2507,6 +2539,7 @@ def generateMainClasses(): Unit = {
             ${genApplicativeType(im, "Option")}
             ${genApplicativeType(im, "Try")}
             ${genApplicativeType(im, "Future")}
+            ${genApplicativeEither(im)}
         }"""
     }
   }
@@ -3486,17 +3519,17 @@ def generateTestClasses(): Unit = {
   */
   def genApplicativeTests(): Unit = {
 
-    def genOptionTests(test: String, assertThat: String): String = {
+    def genTestsValue(typeName: String, builder: String, test: String, assertThat: String): String = {
       (1 to N).gen(i => {
         val liftParams = (1 to i).gen(j => s"Integer i$j")(", ")
         val liftBody = (1 to i).gen(j => s"i$j")(" + ")
-        val applyParams = (1 to i).gen(j => s"Option.of($j)")(", ")
+        val applyParams = (1 to i).gen(j => s"$typeName.$builder($j)")(", ")
         val expected = (1 to i).toList.sum
         xs"""
 
         @$test
-        public void shouldLiftOption$i() {
-          $assertThat(Applicative.liftOption(($liftParams) -> $liftBody).apply($applyParams)).isEqualTo(Option.of($expected));
+        public void shouldLift$typeName$i() {
+          $assertThat(Applicative.lift$typeName(($liftParams) -> $liftBody).apply($applyParams)).isEqualTo($typeName.$builder($expected));
         }
 
         """
@@ -3528,9 +3561,10 @@ def generateTestClasses(): Unit = {
 
         public class ApplicativeTest {
 
-            ${genOptionTests(test, assertThat)}
+            ${genTestsValue("Option", "of", test, assertThat)}
             ${genTestsSupplier("Try", test, assertThat)}
             ${genTestsSupplier("Future", test, assertThat)}
+            ${genTestsValue("Either", "right", test, assertThat)}
         }
       """
     })

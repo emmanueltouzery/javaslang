@@ -137,4 +137,44 @@ public class ApplicativeTest {
       assertThat(Applicative.liftFuture((Integer i1, Integer i2, Integer i3, Integer i4, Integer i5, Integer i6, Integer i7, Integer i8) -> i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8).apply(Future.of(() -> 1), Future.of(() -> 2), Future.of(() -> 3), Future.of(() -> 4), Future.of(() -> 5), Future.of(() -> 6), Future.of(() -> 7), Future.of(() -> 8)).get()).isEqualTo(36);
     }
 
+    @Test
+    public void shouldLiftEither1() {
+      assertThat(Applicative.liftEither((Integer i1) -> i1).apply(Either.right(1))).isEqualTo(Either.right(1));
+    }
+
+    @Test
+    public void shouldLiftEither2() {
+      assertThat(Applicative.liftEither((Integer i1, Integer i2) -> i1 + i2).apply(Either.right(1), Either.right(2))).isEqualTo(Either.right(3));
+    }
+
+    @Test
+    public void shouldLiftEither3() {
+      assertThat(Applicative.liftEither((Integer i1, Integer i2, Integer i3) -> i1 + i2 + i3).apply(Either.right(1), Either.right(2), Either.right(3))).isEqualTo(Either.right(6));
+    }
+
+    @Test
+    public void shouldLiftEither4() {
+      assertThat(Applicative.liftEither((Integer i1, Integer i2, Integer i3, Integer i4) -> i1 + i2 + i3 + i4).apply(Either.right(1), Either.right(2), Either.right(3), Either.right(4))).isEqualTo(Either.right(10));
+    }
+
+    @Test
+    public void shouldLiftEither5() {
+      assertThat(Applicative.liftEither((Integer i1, Integer i2, Integer i3, Integer i4, Integer i5) -> i1 + i2 + i3 + i4 + i5).apply(Either.right(1), Either.right(2), Either.right(3), Either.right(4), Either.right(5))).isEqualTo(Either.right(15));
+    }
+
+    @Test
+    public void shouldLiftEither6() {
+      assertThat(Applicative.liftEither((Integer i1, Integer i2, Integer i3, Integer i4, Integer i5, Integer i6) -> i1 + i2 + i3 + i4 + i5 + i6).apply(Either.right(1), Either.right(2), Either.right(3), Either.right(4), Either.right(5), Either.right(6))).isEqualTo(Either.right(21));
+    }
+
+    @Test
+    public void shouldLiftEither7() {
+      assertThat(Applicative.liftEither((Integer i1, Integer i2, Integer i3, Integer i4, Integer i5, Integer i6, Integer i7) -> i1 + i2 + i3 + i4 + i5 + i6 + i7).apply(Either.right(1), Either.right(2), Either.right(3), Either.right(4), Either.right(5), Either.right(6), Either.right(7))).isEqualTo(Either.right(28));
+    }
+
+    @Test
+    public void shouldLiftEither8() {
+      assertThat(Applicative.liftEither((Integer i1, Integer i2, Integer i3, Integer i4, Integer i5, Integer i6, Integer i7, Integer i8) -> i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8).apply(Either.right(1), Either.right(2), Either.right(3), Either.right(4), Either.right(5), Either.right(6), Either.right(7), Either.right(8))).isEqualTo(Either.right(36));
+    }
+
 }

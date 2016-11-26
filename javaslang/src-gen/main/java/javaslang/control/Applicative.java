@@ -129,4 +129,36 @@ public final class Applicative {
       return (a1, a2, a3, a4, a5, a6, a7, a8) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.flatMap(b5 -> a6.flatMap(b6 -> a7.flatMap(b7 -> a8.map(b8 -> f.apply(b1, b2, b3, b4, b5, b6, b7, b8)))))))));
     }
 
+    public static <E,T1, T2> Function<Either<E, T1>, Either<E, T2>> liftEither(Function<T1, T2> f) {
+      return (a1) -> a1.map(b1 -> f.apply(b1));
+    }
+
+    public static <E,T1, T2, T3> BiFunction<Either<E, T1>, Either<E, T2>, Either<E, T3>> liftEither(BiFunction<T1, T2, T3> f) {
+      return (a1, a2) -> a1.flatMap(b1 -> a2.map(b2 -> f.apply(b1, b2)));
+    }
+
+    public static <E,T1, T2, T3, T4> Function3<Either<E, T1>, Either<E, T2>, Either<E, T3>, Either<E, T4>> liftEither(Function3<T1, T2, T3, T4> f) {
+      return (a1, a2, a3) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.map(b3 -> f.apply(b1, b2, b3))));
+    }
+
+    public static <E,T1, T2, T3, T4, T5> Function4<Either<E, T1>, Either<E, T2>, Either<E, T3>, Either<E, T4>, Either<E, T5>> liftEither(Function4<T1, T2, T3, T4, T5> f) {
+      return (a1, a2, a3, a4) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.map(b4 -> f.apply(b1, b2, b3, b4)))));
+    }
+
+    public static <E,T1, T2, T3, T4, T5, T6> Function5<Either<E, T1>, Either<E, T2>, Either<E, T3>, Either<E, T4>, Either<E, T5>, Either<E, T6>> liftEither(Function5<T1, T2, T3, T4, T5, T6> f) {
+      return (a1, a2, a3, a4, a5) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.map(b5 -> f.apply(b1, b2, b3, b4, b5))))));
+    }
+
+    public static <E,T1, T2, T3, T4, T5, T6, T7> Function6<Either<E, T1>, Either<E, T2>, Either<E, T3>, Either<E, T4>, Either<E, T5>, Either<E, T6>, Either<E, T7>> liftEither(Function6<T1, T2, T3, T4, T5, T6, T7> f) {
+      return (a1, a2, a3, a4, a5, a6) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.flatMap(b5 -> a6.map(b6 -> f.apply(b1, b2, b3, b4, b5, b6)))))));
+    }
+
+    public static <E,T1, T2, T3, T4, T5, T6, T7, T8> Function7<Either<E, T1>, Either<E, T2>, Either<E, T3>, Either<E, T4>, Either<E, T5>, Either<E, T6>, Either<E, T7>, Either<E, T8>> liftEither(Function7<T1, T2, T3, T4, T5, T6, T7, T8> f) {
+      return (a1, a2, a3, a4, a5, a6, a7) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.flatMap(b5 -> a6.flatMap(b6 -> a7.map(b7 -> f.apply(b1, b2, b3, b4, b5, b6, b7))))))));
+    }
+
+    public static <E,T1, T2, T3, T4, T5, T6, T7, T8, T9> Function8<Either<E, T1>, Either<E, T2>, Either<E, T3>, Either<E, T4>, Either<E, T5>, Either<E, T6>, Either<E, T7>, Either<E, T8>, Either<E, T9>> liftEither(Function8<T1, T2, T3, T4, T5, T6, T7, T8, T9> f) {
+      return (a1, a2, a3, a4, a5, a6, a7, a8) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.flatMap(b5 -> a6.flatMap(b6 -> a7.flatMap(b7 -> a8.map(b8 -> f.apply(b1, b2, b3, b4, b5, b6, b7, b8)))))))));
+    }
+
 }
