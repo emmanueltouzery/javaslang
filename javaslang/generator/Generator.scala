@@ -2453,11 +2453,11 @@ def generateMainClasses(): Unit = {
   /**
   * Generator of javaslang.Applicative
   */
-def genApplicative(): Unit = {
+  def genApplicative(): Unit = {
 
-  genJavaslangFile("javaslang.control", "Applicative")(genApplicativeFile)
+    genJavaslangFile("javaslang.control", "Applicative")(genApplicativeFile)
 
-  def genApplicativeType(im: ImportManager, typeName: String): String = {
+    def genApplicativeType(im: ImportManager, typeName: String): String = {
 
       val FunctionType = im.getType("java.util.function.Function")
       val BiFunctionType = im.getType("java.util.function.BiFunction")
@@ -2518,6 +2518,7 @@ def generateTestClasses(): Unit = {
   genAPITests()
   genFunctionTests()
   genTupleTests()
+  genApplicativeTests()
 
   /**
    * Generator of Function tests
@@ -3475,6 +3476,27 @@ def generateTestClasses(): Unit = {
           }
         """
       })
+    })
+  }
+
+  /**
+  * Generator of Applicative tests
+  */
+  def genApplicativeTests(): Unit = {
+
+    genJavaslangFile("javaslang.control", s"ApplicativeTest", baseDir = TARGET_TEST)((im: ImportManager, packageName, className) => {
+      val test = im.getType("org.junit.Test")
+      val assertThat = im.getStatic("org.assertj.core.api.Assertions.assertThat")
+      xs"""
+
+        public class ApplicativeTest {
+
+            @$test
+            public void shouldLiftOption2() {
+                $assertThat(Applicative.liftOption((Integer a, Integer b) -> a+b).apply(Option.of(1), Option.of(2))).isEqualTo(Option.of(3));
+            }
+        }
+      """
     })
   }
 }
