@@ -2494,6 +2494,7 @@ def generateMainClasses(): Unit = {
         ${(1 to N).gen(j => s"import javaslang.Function$j;")("\n")}
         import javaslang.control.Option;
         import javaslang.control.Try;
+        import javaslang.concurrent.Future;
         import java.util.function.BiFunction;
 
         /**
@@ -2505,6 +2506,7 @@ def generateMainClasses(): Unit = {
         public final class Applicative {
             ${genApplicativeType(im, "Option")}
             ${genApplicativeType(im, "Try")}
+            ${genApplicativeType(im, "Future")}
         }"""
     }
   }
@@ -3501,17 +3503,17 @@ def generateTestClasses(): Unit = {
       })
     }
 
-    def genTryTests(test: String, assertThat: String): String = {
+    def genTestsSupplier(typeName: String, test: String, assertThat: String): String = {
       (1 to N).gen(i => {
                      val liftParams = (1 to i).gen(j => s"Integer i$j")(", ")
                      val liftBody = (1 to i).gen(j => s"i$j")(" + ")
-                     val applyParams = (1 to i).gen(j => s"Try.of(() -> $j)")(", ")
+                     val applyParams = (1 to i).gen(j => s"$typeName.of(() -> $j)")(", ")
                      val expected = (1 to i).toList.sum
                      xs"""
 
         @$test
-        public void shouldLiftTry$i() {
-          $assertThat(Applicative.liftTry(($liftParams) -> $liftBody).apply($applyParams).get()).isEqualTo($expected);
+        public void shouldLift$typeName$i() {
+          $assertThat(Applicative.lift$typeName(($liftParams) -> $liftBody).apply($applyParams).get()).isEqualTo($expected);
         }
 
         """
@@ -3522,11 +3524,13 @@ def generateTestClasses(): Unit = {
       val test = im.getType("org.junit.Test")
       val assertThat = im.getStatic("org.assertj.core.api.Assertions.assertThat")
       xs"""
+        import javaslang.concurrent.Future;
 
         public class ApplicativeTest {
 
             ${genOptionTests(test, assertThat)}
-            ${genTryTests(test, assertThat)}
+            ${genTestsSupplier("Try", test, assertThat)}
+            ${genTestsSupplier("Future", test, assertThat)}
         }
       """
     })
