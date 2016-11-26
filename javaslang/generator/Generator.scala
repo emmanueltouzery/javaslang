@@ -2471,14 +2471,14 @@ def genApplicative(): Unit = {
         val generics = (1 to i+1).gen(j => s"T$j")(", ")
         val resultGenerics = (1 to i+1).gen(j => s"$typeName<T$j>")(", ")
         val params = (1 to i).gen(j => s"a$j")(", ")
+        val resultParams = (1 to i).gen(j => s"b$j")(", ")
         def applyLevel(l: Int): String = {
-          s"a$l.flatMap(a${l+1} -> ${if (l<i) applyLevel(l+1) else s"f.apply()"})"
+          s"a$l.flatMap(b${l} -> ${if (l+1<i) applyLevel(l+1) else s"a${l+1}.map(b${l+1} -> f.apply(${resultParams}))"})"
         }
         xs"""
 
         public static <$generics> $functionType<$resultGenerics> lift$typeName($functionType<$generics> f) {
           return ($params) -> ${applyLevel(1)};
-          return (a, b) -> a.flatMap(a1 -> b.map(b1 -> f.apply(a1, b1)));
         }
         """
       })
