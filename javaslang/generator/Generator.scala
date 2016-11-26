@@ -37,6 +37,7 @@ def generateMainClasses(): Unit = {
   genFunctions()
   genTuples()
   genArrayTypes()
+  genApplicative()
 
   /**
    * Generator of Match
@@ -2446,6 +2447,57 @@ def generateMainClasses(): Unit = {
             }
         }
       """
+    }
+  }
+
+  /**
+  * Generator of javaslang.Applicative
+  */
+def genApplicative(): Unit = {
+
+  genJavaslangFile("javaslang.control", "Applicative")(genApplicativeFile)
+
+  def genApplicativeType(im: ImportManager, typeName: String): String = {
+
+      val FunctionType = im.getType("java.util.function.Function")
+      val BiFunctionType = im.getType("java.util.function.BiFunction")
+
+      (1 to N).gen(i => {
+        val functionType = i match {
+          case 1 => FunctionType
+          case 2 => BiFunctionType
+          case _ => s"Function$i"
+        }
+        val params = (1 to i).gen(j => s"a$j")(", ")
+        def applyLevel(l: Int): String = {
+          s"a$l.flatMap(a$l -> ${if (l<i) applyLevel(l+1) else s"f.apply()"})"
+        }
+        xs"""
+
+        public static <T,U,V> $functionType<$typeName<T>,$typeName<U>,$typeName<V>> lift$typeName($functionType<T, U, V> f) {
+          return ($params) -> ${applyLevel(1)};
+          return (a, b) -> a.flatMap(a1 -> b.map(b1 -> f.apply(a1, b1)));
+        }
+        """
+      })
+    }
+
+    def genApplicativeFile(im: ImportManager, packageName: String, className: String): String = {
+      xs"""
+        import javaslang.Function2;
+        import javaslang.control.Option;
+        import java.util.function.BiFunction;
+
+        /**
+         * Applicative helpers
+         *
+         * @author Daniel Dietrich
+         * @since 2.1.0
+         */
+        public final class Applicative {
+            ${genApplicativeType(im, "Option")}
+            ${genApplicativeType(im, "Try")}
+        }"""
     }
   }
 }
