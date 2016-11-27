@@ -2524,6 +2524,7 @@ def generateMainClasses(): Unit = {
     def genApplicativeFile(im: ImportManager, packageName: String, className: String): String = {
       xs"""
         ${(1 to N).gen(j => s"import javaslang.Function$j;")("\n")}
+        import javaslang.collection.List;
         import javaslang.control.Option;
         import javaslang.control.Try;
         import javaslang.concurrent.Future;
@@ -2539,6 +2540,7 @@ def generateMainClasses(): Unit = {
             ${genApplicativeType(im, "Option")}
             ${genApplicativeType(im, "Try")}
             ${genApplicativeType(im, "Future")}
+            ${genApplicativeType(im, "List")}
             ${genApplicativeEither(im)}
         }"""
     }
@@ -3557,6 +3559,7 @@ def generateTestClasses(): Unit = {
       val test = im.getType("org.junit.Test")
       val assertThat = im.getStatic("org.assertj.core.api.Assertions.assertThat")
       xs"""
+        import javaslang.collection.List;
         import javaslang.concurrent.Future;
 
         public class ApplicativeTest {
@@ -3565,6 +3568,18 @@ def generateTestClasses(): Unit = {
             ${genTestsSupplier("Try", test, assertThat)}
             ${genTestsSupplier("Future", test, assertThat)}
             ${genTestsValue("Either", "right", test, assertThat)}
+
+            @Test
+            public void shouldLiftEither2Fail() {
+              assertThat(Applicative.liftEither((Integer i1, Integer i2) -> i1 + i2).apply(Either.right(1), Either.left("oops"))).isEqualTo(Either.left("oops"));
+            }
+
+            ${genTestsValue("List", "of", test, assertThat)}
+
+            @Test
+            public void shouldLiftList2twoElements() {
+              assertThat(Applicative.liftList((Integer i1, Integer i2) -> i1 + i2).apply(List.of(1, 2), List.of(3, 4))).isEqualTo(List.of(4, 5, 5, 6));
+            }
         }
       """
     })

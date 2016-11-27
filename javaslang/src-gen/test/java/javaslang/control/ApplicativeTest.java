@@ -13,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
+import javaslang.collection.List;
 import javaslang.concurrent.Future;
 
 public class ApplicativeTest {
@@ -177,4 +178,53 @@ public class ApplicativeTest {
       assertThat(Applicative.liftEither((Integer i1, Integer i2, Integer i3, Integer i4, Integer i5, Integer i6, Integer i7, Integer i8) -> i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8).apply(Either.right(1), Either.right(2), Either.right(3), Either.right(4), Either.right(5), Either.right(6), Either.right(7), Either.right(8))).isEqualTo(Either.right(36));
     }
 
+    @Test
+    public void shouldLiftEither2Fail() {
+      assertThat(Applicative.liftEither((Integer i1, Integer i2) -> i1 + i2).apply(Either.right(1), Either.left("oops"))).isEqualTo(Either.left("oops"));
+    }
+
+    @Test
+    public void shouldLiftList1() {
+      assertThat(Applicative.liftList((Integer i1) -> i1).apply(List.of(1))).isEqualTo(List.of(1));
+    }
+
+    @Test
+    public void shouldLiftList2() {
+      assertThat(Applicative.liftList((Integer i1, Integer i2) -> i1 + i2).apply(List.of(1), List.of(2))).isEqualTo(List.of(3));
+    }
+
+    @Test
+    public void shouldLiftList3() {
+      assertThat(Applicative.liftList((Integer i1, Integer i2, Integer i3) -> i1 + i2 + i3).apply(List.of(1), List.of(2), List.of(3))).isEqualTo(List.of(6));
+    }
+
+    @Test
+    public void shouldLiftList4() {
+      assertThat(Applicative.liftList((Integer i1, Integer i2, Integer i3, Integer i4) -> i1 + i2 + i3 + i4).apply(List.of(1), List.of(2), List.of(3), List.of(4))).isEqualTo(List.of(10));
+    }
+
+    @Test
+    public void shouldLiftList5() {
+      assertThat(Applicative.liftList((Integer i1, Integer i2, Integer i3, Integer i4, Integer i5) -> i1 + i2 + i3 + i4 + i5).apply(List.of(1), List.of(2), List.of(3), List.of(4), List.of(5))).isEqualTo(List.of(15));
+    }
+
+    @Test
+    public void shouldLiftList6() {
+      assertThat(Applicative.liftList((Integer i1, Integer i2, Integer i3, Integer i4, Integer i5, Integer i6) -> i1 + i2 + i3 + i4 + i5 + i6).apply(List.of(1), List.of(2), List.of(3), List.of(4), List.of(5), List.of(6))).isEqualTo(List.of(21));
+    }
+
+    @Test
+    public void shouldLiftList7() {
+      assertThat(Applicative.liftList((Integer i1, Integer i2, Integer i3, Integer i4, Integer i5, Integer i6, Integer i7) -> i1 + i2 + i3 + i4 + i5 + i6 + i7).apply(List.of(1), List.of(2), List.of(3), List.of(4), List.of(5), List.of(6), List.of(7))).isEqualTo(List.of(28));
+    }
+
+    @Test
+    public void shouldLiftList8() {
+      assertThat(Applicative.liftList((Integer i1, Integer i2, Integer i3, Integer i4, Integer i5, Integer i6, Integer i7, Integer i8) -> i1 + i2 + i3 + i4 + i5 + i6 + i7 + i8).apply(List.of(1), List.of(2), List.of(3), List.of(4), List.of(5), List.of(6), List.of(7), List.of(8))).isEqualTo(List.of(36));
+    }
+
+    @Test
+    public void shouldLiftList2twoElements() {
+      assertThat(Applicative.liftList((Integer i1, Integer i2) -> i1 + i2).apply(List.of(1, 2), List.of(3, 4))).isEqualTo(List.of(4, 5, 5, 6));
+    }
 }
