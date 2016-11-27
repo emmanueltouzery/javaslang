@@ -2496,7 +2496,7 @@ def generateMainClasses(): Unit = {
     }
 
     def genApplicativeEither(im: ImportManager): String = {
-
+      val EitherType = im.getType("javaslang.control.Either")
       val FunctionType = im.getType("java.util.function.Function")
       val BiFunctionType = im.getType("java.util.function.BiFunction")
 
@@ -2507,7 +2507,7 @@ def generateMainClasses(): Unit = {
           case _ => s"Function$i"
         }
         val generics = (1 to i+1).gen(j => s"T$j")(", ")
-        val resultGenerics = (1 to i+1).gen(j => s"Either<E, T$j>")(", ")
+        val resultGenerics = (1 to i+1).gen(j => s"$EitherType<E, T$j>")(", ")
         val params = (1 to i).gen(j => s"a$j")(", ")
         val resultParams = (1 to i).gen(j => s"b$j")(", ")
         def applyLevel(l: Int): String = {
@@ -2520,12 +2520,12 @@ def generateMainClasses(): Unit = {
         xs"""
 
         /**
-         * Lift a function: promote it to operate on {@link Either} functors
+         * Lift a function: promote it to operate on {@link $EitherType} functors
          *
          * @param f the function to be lifted
          * @returns a function performing the same as the input function, but operating on functors
          */
-        public static <E,$generics> $functionType<$resultGenerics> liftEither($functionType<$generics> f) {
+        public static <E,$generics> $functionType<$resultGenerics> lift$EitherType($functionType<$generics> f) {
           return ($params) -> ${applyLevel(1)};
         }
 
@@ -2534,6 +2534,11 @@ def generateMainClasses(): Unit = {
     }
 
     def genApplicativeFile(im: ImportManager, packageName: String, className: String): String = {
+      val OptionType = im.getType("javaslang.control.Option")
+      val TryType = im.getType("javaslang.control.Try")
+      val FutureType = im.getType("javaslang.concurrent.Future")
+      val ListType = im.getType("javaslang.collection.List")
+
       xs"""
         ${(1 to N).gen(j => s"import javaslang.Function$j;")("\n")}
         import javaslang.collection.List;
@@ -2549,10 +2554,10 @@ def generateMainClasses(): Unit = {
          * @since 2.1.0
          */
         public final class Applicative {
-            ${genApplicativeType(im, "Option")}
-            ${genApplicativeType(im, "Try")}
-            ${genApplicativeType(im, "Future")}
-            ${genApplicativeType(im, "List")}
+            ${genApplicativeType(im, OptionType)}
+            ${genApplicativeType(im, TryType)}
+            ${genApplicativeType(im, FutureType)}
+            ${genApplicativeType(im, ListType)}
             ${genApplicativeEither(im)}
         }"""
     }
@@ -3570,27 +3575,32 @@ def generateTestClasses(): Unit = {
     genJavaslangFile("javaslang.control", s"ApplicativeTest", baseDir = TARGET_TEST)((im: ImportManager, packageName, className) => {
       val test = im.getType("org.junit.Test")
       val assertThat = im.getStatic("org.assertj.core.api.Assertions.assertThat")
+      val OptionType = im.getType("javaslang.control.Option")
+      val EitherType = im.getType("javaslang.control.Either")
+      val TryType = im.getType("javaslang.control.Try")
+      val FutureType = im.getType("javaslang.concurrent.Future")
+      val ListType = im.getType("javaslang.collection.List")
       xs"""
         import javaslang.collection.List;
         import javaslang.concurrent.Future;
 
         public class ApplicativeTest {
 
-            ${genTestsValue("Option", "of", test, assertThat)}
-            ${genTestsSupplier("Try", test, assertThat)}
-            ${genTestsSupplier("Future", test, assertThat)}
-            ${genTestsValue("Either", "right", test, assertThat)}
+            ${genTestsValue(OptionType, "of", test, assertThat)}
+            ${genTestsSupplier(TryType, test, assertThat)}
+            ${genTestsSupplier(FutureType, test, assertThat)}
+            ${genTestsValue(EitherType, "right", test, assertThat)}
 
             @Test
-            public void shouldLiftEither2Fail() {
-              assertThat(Applicative.liftEither((Integer i1, Integer i2) -> i1 + i2).apply(Either.right(1), Either.left("oops"))).isEqualTo(Either.left("oops"));
+            public void shouldLift${EitherType}2Fail() {
+              assertThat(Applicative.lift$EitherType((Integer i1, Integer i2) -> i1 + i2).apply($EitherType.right(1), $EitherType.left("oops"))).isEqualTo($EitherType.left("oops"));
             }
 
-            ${genTestsValue("List", "of", test, assertThat)}
+            ${genTestsValue(ListType, "of", test, assertThat)}
 
             @Test
-            public void shouldLiftList2twoElements() {
-              assertThat(Applicative.liftList((Integer i1, Integer i2) -> i1 + i2).apply(List.of(1, 2), List.of(3, 4))).isEqualTo(List.of(4, 5, 5, 6));
+            public void shouldLift${ListType}2twoElements() {
+              assertThat(Applicative.lift$ListType((Integer i1, Integer i2) -> i1 + i2).apply($ListType.of(1, 2), $ListType.of(3, 4))).isEqualTo($ListType.of(4, 5, 5, 6));
             }
         }
       """

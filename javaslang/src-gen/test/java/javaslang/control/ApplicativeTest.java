@@ -11,6 +11,8 @@ package javaslang.control;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import javaslang.collection.List;
+import javaslang.concurrent.Future;
 import org.junit.Test;
 
 import javaslang.collection.List;

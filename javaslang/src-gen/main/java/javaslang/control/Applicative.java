@@ -11,6 +11,8 @@ package javaslang.control;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import javaslang.collection.List;
+import javaslang.concurrent.Future;
 
 import javaslang.Function1;
 import javaslang.Function2;
