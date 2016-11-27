@@ -42,7 +42,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2> Function<Option<T1>, Option<T2>> liftOption(Function<T1, T2> f) {
+    public static <T1, T2> Function<Option<T1>, Option<T2>> liftOption(Function<? super T1, ? extends T2> f) {
       return (a1) -> a1.map(b1 -> f.apply(b1));
     }
 
@@ -52,7 +52,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3> BiFunction<Option<T1>, Option<T2>, Option<T3>> liftOption(BiFunction<T1, T2, T3> f) {
+    public static <T1, T2, T3> BiFunction<Option<T1>, Option<T2>, Option<T3>> liftOption(BiFunction<? super T1, ? super T2, ? extends T3> f) {
       return (a1, a2) -> a1.flatMap(b1 -> a2.map(b2 -> f.apply(b1, b2)));
     }
 
@@ -62,7 +62,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4> Function3<Option<T1>, Option<T2>, Option<T3>, Option<T4>> liftOption(Function3<T1, T2, T3, T4> f) {
+    public static <T1, T2, T3, T4> Function3<Option<T1>, Option<T2>, Option<T3>, Option<T4>> liftOption(Function3<? super T1, ? super T2, ? super T3, ? extends T4> f) {
       return (a1, a2, a3) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.map(b3 -> f.apply(b1, b2, b3))));
     }
 
@@ -72,7 +72,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4, T5> Function4<Option<T1>, Option<T2>, Option<T3>, Option<T4>, Option<T5>> liftOption(Function4<T1, T2, T3, T4, T5> f) {
+    public static <T1, T2, T3, T4, T5> Function4<Option<T1>, Option<T2>, Option<T3>, Option<T4>, Option<T5>> liftOption(Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends T5> f) {
       return (a1, a2, a3, a4) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.map(b4 -> f.apply(b1, b2, b3, b4)))));
     }
 
@@ -82,7 +82,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4, T5, T6> Function5<Option<T1>, Option<T2>, Option<T3>, Option<T4>, Option<T5>, Option<T6>> liftOption(Function5<T1, T2, T3, T4, T5, T6> f) {
+    public static <T1, T2, T3, T4, T5, T6> Function5<Option<T1>, Option<T2>, Option<T3>, Option<T4>, Option<T5>, Option<T6>> liftOption(Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends T6> f) {
       return (a1, a2, a3, a4, a5) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.map(b5 -> f.apply(b1, b2, b3, b4, b5))))));
     }
 
@@ -92,7 +92,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4, T5, T6, T7> Function6<Option<T1>, Option<T2>, Option<T3>, Option<T4>, Option<T5>, Option<T6>, Option<T7>> liftOption(Function6<T1, T2, T3, T4, T5, T6, T7> f) {
+    public static <T1, T2, T3, T4, T5, T6, T7> Function6<Option<T1>, Option<T2>, Option<T3>, Option<T4>, Option<T5>, Option<T6>, Option<T7>> liftOption(Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends T7> f) {
       return (a1, a2, a3, a4, a5, a6) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.flatMap(b5 -> a6.map(b6 -> f.apply(b1, b2, b3, b4, b5, b6)))))));
     }
 
@@ -102,7 +102,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4, T5, T6, T7, T8> Function7<Option<T1>, Option<T2>, Option<T3>, Option<T4>, Option<T5>, Option<T6>, Option<T7>, Option<T8>> liftOption(Function7<T1, T2, T3, T4, T5, T6, T7, T8> f) {
+    public static <T1, T2, T3, T4, T5, T6, T7, T8> Function7<Option<T1>, Option<T2>, Option<T3>, Option<T4>, Option<T5>, Option<T6>, Option<T7>, Option<T8>> liftOption(Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends T8> f) {
       return (a1, a2, a3, a4, a5, a6, a7) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.flatMap(b5 -> a6.flatMap(b6 -> a7.map(b7 -> f.apply(b1, b2, b3, b4, b5, b6, b7))))))));
     }
 
@@ -112,7 +112,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Function8<Option<T1>, Option<T2>, Option<T3>, Option<T4>, Option<T5>, Option<T6>, Option<T7>, Option<T8>, Option<T9>> liftOption(Function8<T1, T2, T3, T4, T5, T6, T7, T8, T9> f) {
+    public static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Function8<Option<T1>, Option<T2>, Option<T3>, Option<T4>, Option<T5>, Option<T6>, Option<T7>, Option<T8>, Option<T9>> liftOption(Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends T9> f) {
       return (a1, a2, a3, a4, a5, a6, a7, a8) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.flatMap(b5 -> a6.flatMap(b6 -> a7.flatMap(b7 -> a8.map(b8 -> f.apply(b1, b2, b3, b4, b5, b6, b7, b8)))))))));
     }
 
@@ -122,7 +122,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2> Function<Try<T1>, Try<T2>> liftTry(Function<T1, T2> f) {
+    public static <T1, T2> Function<Try<T1>, Try<T2>> liftTry(Function<? super T1, ? extends T2> f) {
       return (a1) -> a1.map(b1 -> f.apply(b1));
     }
 
@@ -132,7 +132,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3> BiFunction<Try<T1>, Try<T2>, Try<T3>> liftTry(BiFunction<T1, T2, T3> f) {
+    public static <T1, T2, T3> BiFunction<Try<T1>, Try<T2>, Try<T3>> liftTry(BiFunction<? super T1, ? super T2, ? extends T3> f) {
       return (a1, a2) -> a1.flatMap(b1 -> a2.map(b2 -> f.apply(b1, b2)));
     }
 
@@ -142,7 +142,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4> Function3<Try<T1>, Try<T2>, Try<T3>, Try<T4>> liftTry(Function3<T1, T2, T3, T4> f) {
+    public static <T1, T2, T3, T4> Function3<Try<T1>, Try<T2>, Try<T3>, Try<T4>> liftTry(Function3<? super T1, ? super T2, ? super T3, ? extends T4> f) {
       return (a1, a2, a3) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.map(b3 -> f.apply(b1, b2, b3))));
     }
 
@@ -152,7 +152,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4, T5> Function4<Try<T1>, Try<T2>, Try<T3>, Try<T4>, Try<T5>> liftTry(Function4<T1, T2, T3, T4, T5> f) {
+    public static <T1, T2, T3, T4, T5> Function4<Try<T1>, Try<T2>, Try<T3>, Try<T4>, Try<T5>> liftTry(Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends T5> f) {
       return (a1, a2, a3, a4) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.map(b4 -> f.apply(b1, b2, b3, b4)))));
     }
 
@@ -162,7 +162,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4, T5, T6> Function5<Try<T1>, Try<T2>, Try<T3>, Try<T4>, Try<T5>, Try<T6>> liftTry(Function5<T1, T2, T3, T4, T5, T6> f) {
+    public static <T1, T2, T3, T4, T5, T6> Function5<Try<T1>, Try<T2>, Try<T3>, Try<T4>, Try<T5>, Try<T6>> liftTry(Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends T6> f) {
       return (a1, a2, a3, a4, a5) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.map(b5 -> f.apply(b1, b2, b3, b4, b5))))));
     }
 
@@ -172,7 +172,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4, T5, T6, T7> Function6<Try<T1>, Try<T2>, Try<T3>, Try<T4>, Try<T5>, Try<T6>, Try<T7>> liftTry(Function6<T1, T2, T3, T4, T5, T6, T7> f) {
+    public static <T1, T2, T3, T4, T5, T6, T7> Function6<Try<T1>, Try<T2>, Try<T3>, Try<T4>, Try<T5>, Try<T6>, Try<T7>> liftTry(Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends T7> f) {
       return (a1, a2, a3, a4, a5, a6) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.flatMap(b5 -> a6.map(b6 -> f.apply(b1, b2, b3, b4, b5, b6)))))));
     }
 
@@ -182,7 +182,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4, T5, T6, T7, T8> Function7<Try<T1>, Try<T2>, Try<T3>, Try<T4>, Try<T5>, Try<T6>, Try<T7>, Try<T8>> liftTry(Function7<T1, T2, T3, T4, T5, T6, T7, T8> f) {
+    public static <T1, T2, T3, T4, T5, T6, T7, T8> Function7<Try<T1>, Try<T2>, Try<T3>, Try<T4>, Try<T5>, Try<T6>, Try<T7>, Try<T8>> liftTry(Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends T8> f) {
       return (a1, a2, a3, a4, a5, a6, a7) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.flatMap(b5 -> a6.flatMap(b6 -> a7.map(b7 -> f.apply(b1, b2, b3, b4, b5, b6, b7))))))));
     }
 
@@ -192,7 +192,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Function8<Try<T1>, Try<T2>, Try<T3>, Try<T4>, Try<T5>, Try<T6>, Try<T7>, Try<T8>, Try<T9>> liftTry(Function8<T1, T2, T3, T4, T5, T6, T7, T8, T9> f) {
+    public static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Function8<Try<T1>, Try<T2>, Try<T3>, Try<T4>, Try<T5>, Try<T6>, Try<T7>, Try<T8>, Try<T9>> liftTry(Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends T9> f) {
       return (a1, a2, a3, a4, a5, a6, a7, a8) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.flatMap(b5 -> a6.flatMap(b6 -> a7.flatMap(b7 -> a8.map(b8 -> f.apply(b1, b2, b3, b4, b5, b6, b7, b8)))))))));
     }
 
@@ -202,7 +202,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2> Function<Future<T1>, Future<T2>> liftFuture(Function<T1, T2> f) {
+    public static <T1, T2> Function<Future<T1>, Future<T2>> liftFuture(Function<? super T1, ? extends T2> f) {
       return (a1) -> a1.map(b1 -> f.apply(b1));
     }
 
@@ -212,7 +212,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3> BiFunction<Future<T1>, Future<T2>, Future<T3>> liftFuture(BiFunction<T1, T2, T3> f) {
+    public static <T1, T2, T3> BiFunction<Future<T1>, Future<T2>, Future<T3>> liftFuture(BiFunction<? super T1, ? super T2, ? extends T3> f) {
       return (a1, a2) -> a1.flatMap(b1 -> a2.map(b2 -> f.apply(b1, b2)));
     }
 
@@ -222,7 +222,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4> Function3<Future<T1>, Future<T2>, Future<T3>, Future<T4>> liftFuture(Function3<T1, T2, T3, T4> f) {
+    public static <T1, T2, T3, T4> Function3<Future<T1>, Future<T2>, Future<T3>, Future<T4>> liftFuture(Function3<? super T1, ? super T2, ? super T3, ? extends T4> f) {
       return (a1, a2, a3) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.map(b3 -> f.apply(b1, b2, b3))));
     }
 
@@ -232,7 +232,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4, T5> Function4<Future<T1>, Future<T2>, Future<T3>, Future<T4>, Future<T5>> liftFuture(Function4<T1, T2, T3, T4, T5> f) {
+    public static <T1, T2, T3, T4, T5> Function4<Future<T1>, Future<T2>, Future<T3>, Future<T4>, Future<T5>> liftFuture(Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends T5> f) {
       return (a1, a2, a3, a4) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.map(b4 -> f.apply(b1, b2, b3, b4)))));
     }
 
@@ -242,7 +242,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4, T5, T6> Function5<Future<T1>, Future<T2>, Future<T3>, Future<T4>, Future<T5>, Future<T6>> liftFuture(Function5<T1, T2, T3, T4, T5, T6> f) {
+    public static <T1, T2, T3, T4, T5, T6> Function5<Future<T1>, Future<T2>, Future<T3>, Future<T4>, Future<T5>, Future<T6>> liftFuture(Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends T6> f) {
       return (a1, a2, a3, a4, a5) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.map(b5 -> f.apply(b1, b2, b3, b4, b5))))));
     }
 
@@ -252,7 +252,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4, T5, T6, T7> Function6<Future<T1>, Future<T2>, Future<T3>, Future<T4>, Future<T5>, Future<T6>, Future<T7>> liftFuture(Function6<T1, T2, T3, T4, T5, T6, T7> f) {
+    public static <T1, T2, T3, T4, T5, T6, T7> Function6<Future<T1>, Future<T2>, Future<T3>, Future<T4>, Future<T5>, Future<T6>, Future<T7>> liftFuture(Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends T7> f) {
       return (a1, a2, a3, a4, a5, a6) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.flatMap(b5 -> a6.map(b6 -> f.apply(b1, b2, b3, b4, b5, b6)))))));
     }
 
@@ -262,7 +262,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4, T5, T6, T7, T8> Function7<Future<T1>, Future<T2>, Future<T3>, Future<T4>, Future<T5>, Future<T6>, Future<T7>, Future<T8>> liftFuture(Function7<T1, T2, T3, T4, T5, T6, T7, T8> f) {
+    public static <T1, T2, T3, T4, T5, T6, T7, T8> Function7<Future<T1>, Future<T2>, Future<T3>, Future<T4>, Future<T5>, Future<T6>, Future<T7>, Future<T8>> liftFuture(Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends T8> f) {
       return (a1, a2, a3, a4, a5, a6, a7) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.flatMap(b5 -> a6.flatMap(b6 -> a7.map(b7 -> f.apply(b1, b2, b3, b4, b5, b6, b7))))))));
     }
 
@@ -272,7 +272,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Function8<Future<T1>, Future<T2>, Future<T3>, Future<T4>, Future<T5>, Future<T6>, Future<T7>, Future<T8>, Future<T9>> liftFuture(Function8<T1, T2, T3, T4, T5, T6, T7, T8, T9> f) {
+    public static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Function8<Future<T1>, Future<T2>, Future<T3>, Future<T4>, Future<T5>, Future<T6>, Future<T7>, Future<T8>, Future<T9>> liftFuture(Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends T9> f) {
       return (a1, a2, a3, a4, a5, a6, a7, a8) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.flatMap(b5 -> a6.flatMap(b6 -> a7.flatMap(b7 -> a8.map(b8 -> f.apply(b1, b2, b3, b4, b5, b6, b7, b8)))))))));
     }
 
@@ -282,7 +282,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2> Function<List<T1>, List<T2>> liftList(Function<T1, T2> f) {
+    public static <T1, T2> Function<List<T1>, List<T2>> liftList(Function<? super T1, ? extends T2> f) {
       return (a1) -> a1.map(b1 -> f.apply(b1));
     }
 
@@ -292,7 +292,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3> BiFunction<List<T1>, List<T2>, List<T3>> liftList(BiFunction<T1, T2, T3> f) {
+    public static <T1, T2, T3> BiFunction<List<T1>, List<T2>, List<T3>> liftList(BiFunction<? super T1, ? super T2, ? extends T3> f) {
       return (a1, a2) -> a1.flatMap(b1 -> a2.map(b2 -> f.apply(b1, b2)));
     }
 
@@ -302,7 +302,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4> Function3<List<T1>, List<T2>, List<T3>, List<T4>> liftList(Function3<T1, T2, T3, T4> f) {
+    public static <T1, T2, T3, T4> Function3<List<T1>, List<T2>, List<T3>, List<T4>> liftList(Function3<? super T1, ? super T2, ? super T3, ? extends T4> f) {
       return (a1, a2, a3) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.map(b3 -> f.apply(b1, b2, b3))));
     }
 
@@ -312,7 +312,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4, T5> Function4<List<T1>, List<T2>, List<T3>, List<T4>, List<T5>> liftList(Function4<T1, T2, T3, T4, T5> f) {
+    public static <T1, T2, T3, T4, T5> Function4<List<T1>, List<T2>, List<T3>, List<T4>, List<T5>> liftList(Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends T5> f) {
       return (a1, a2, a3, a4) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.map(b4 -> f.apply(b1, b2, b3, b4)))));
     }
 
@@ -322,7 +322,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4, T5, T6> Function5<List<T1>, List<T2>, List<T3>, List<T4>, List<T5>, List<T6>> liftList(Function5<T1, T2, T3, T4, T5, T6> f) {
+    public static <T1, T2, T3, T4, T5, T6> Function5<List<T1>, List<T2>, List<T3>, List<T4>, List<T5>, List<T6>> liftList(Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends T6> f) {
       return (a1, a2, a3, a4, a5) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.map(b5 -> f.apply(b1, b2, b3, b4, b5))))));
     }
 
@@ -332,7 +332,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4, T5, T6, T7> Function6<List<T1>, List<T2>, List<T3>, List<T4>, List<T5>, List<T6>, List<T7>> liftList(Function6<T1, T2, T3, T4, T5, T6, T7> f) {
+    public static <T1, T2, T3, T4, T5, T6, T7> Function6<List<T1>, List<T2>, List<T3>, List<T4>, List<T5>, List<T6>, List<T7>> liftList(Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends T7> f) {
       return (a1, a2, a3, a4, a5, a6) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.flatMap(b5 -> a6.map(b6 -> f.apply(b1, b2, b3, b4, b5, b6)))))));
     }
 
@@ -342,7 +342,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4, T5, T6, T7, T8> Function7<List<T1>, List<T2>, List<T3>, List<T4>, List<T5>, List<T6>, List<T7>, List<T8>> liftList(Function7<T1, T2, T3, T4, T5, T6, T7, T8> f) {
+    public static <T1, T2, T3, T4, T5, T6, T7, T8> Function7<List<T1>, List<T2>, List<T3>, List<T4>, List<T5>, List<T6>, List<T7>, List<T8>> liftList(Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends T8> f) {
       return (a1, a2, a3, a4, a5, a6, a7) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.flatMap(b5 -> a6.flatMap(b6 -> a7.map(b7 -> f.apply(b1, b2, b3, b4, b5, b6, b7))))))));
     }
 
@@ -352,7 +352,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Function8<List<T1>, List<T2>, List<T3>, List<T4>, List<T5>, List<T6>, List<T7>, List<T8>, List<T9>> liftList(Function8<T1, T2, T3, T4, T5, T6, T7, T8, T9> f) {
+    public static <T1, T2, T3, T4, T5, T6, T7, T8, T9> Function8<List<T1>, List<T2>, List<T3>, List<T4>, List<T5>, List<T6>, List<T7>, List<T8>, List<T9>> liftList(Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends T9> f) {
       return (a1, a2, a3, a4, a5, a6, a7, a8) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.flatMap(b5 -> a6.flatMap(b6 -> a7.flatMap(b7 -> a8.map(b8 -> f.apply(b1, b2, b3, b4, b5, b6, b7, b8)))))))));
     }
 
@@ -362,7 +362,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <E,T1, T2> Function<Either<E, T1>, Either<E, T2>> liftEither(Function<T1, T2> f) {
+    public static <E,T1, T2> Function<Either<E, T1>, Either<E, T2>> liftEither(Function<? super T1, ? extends T2> f) {
       return (a1) -> a1.map(b1 -> f.apply(b1));
     }
 
@@ -372,7 +372,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <E,T1, T2, T3> BiFunction<Either<E, T1>, Either<E, T2>, Either<E, T3>> liftEither(BiFunction<T1, T2, T3> f) {
+    public static <E,T1, T2, T3> BiFunction<Either<E, T1>, Either<E, T2>, Either<E, T3>> liftEither(BiFunction<? super T1, ? super T2, ? extends T3> f) {
       return (a1, a2) -> a1.flatMap(b1 -> a2.map(b2 -> f.apply(b1, b2)));
     }
 
@@ -382,7 +382,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <E,T1, T2, T3, T4> Function3<Either<E, T1>, Either<E, T2>, Either<E, T3>, Either<E, T4>> liftEither(Function3<T1, T2, T3, T4> f) {
+    public static <E,T1, T2, T3, T4> Function3<Either<E, T1>, Either<E, T2>, Either<E, T3>, Either<E, T4>> liftEither(Function3<? super T1, ? super T2, ? super T3, ? extends T4> f) {
       return (a1, a2, a3) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.map(b3 -> f.apply(b1, b2, b3))));
     }
 
@@ -392,7 +392,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <E,T1, T2, T3, T4, T5> Function4<Either<E, T1>, Either<E, T2>, Either<E, T3>, Either<E, T4>, Either<E, T5>> liftEither(Function4<T1, T2, T3, T4, T5> f) {
+    public static <E,T1, T2, T3, T4, T5> Function4<Either<E, T1>, Either<E, T2>, Either<E, T3>, Either<E, T4>, Either<E, T5>> liftEither(Function4<? super T1, ? super T2, ? super T3, ? super T4, ? extends T5> f) {
       return (a1, a2, a3, a4) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.map(b4 -> f.apply(b1, b2, b3, b4)))));
     }
 
@@ -402,7 +402,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <E,T1, T2, T3, T4, T5, T6> Function5<Either<E, T1>, Either<E, T2>, Either<E, T3>, Either<E, T4>, Either<E, T5>, Either<E, T6>> liftEither(Function5<T1, T2, T3, T4, T5, T6> f) {
+    public static <E,T1, T2, T3, T4, T5, T6> Function5<Either<E, T1>, Either<E, T2>, Either<E, T3>, Either<E, T4>, Either<E, T5>, Either<E, T6>> liftEither(Function5<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends T6> f) {
       return (a1, a2, a3, a4, a5) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.map(b5 -> f.apply(b1, b2, b3, b4, b5))))));
     }
 
@@ -412,7 +412,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <E,T1, T2, T3, T4, T5, T6, T7> Function6<Either<E, T1>, Either<E, T2>, Either<E, T3>, Either<E, T4>, Either<E, T5>, Either<E, T6>, Either<E, T7>> liftEither(Function6<T1, T2, T3, T4, T5, T6, T7> f) {
+    public static <E,T1, T2, T3, T4, T5, T6, T7> Function6<Either<E, T1>, Either<E, T2>, Either<E, T3>, Either<E, T4>, Either<E, T5>, Either<E, T6>, Either<E, T7>> liftEither(Function6<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends T7> f) {
       return (a1, a2, a3, a4, a5, a6) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.flatMap(b5 -> a6.map(b6 -> f.apply(b1, b2, b3, b4, b5, b6)))))));
     }
 
@@ -422,7 +422,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <E,T1, T2, T3, T4, T5, T6, T7, T8> Function7<Either<E, T1>, Either<E, T2>, Either<E, T3>, Either<E, T4>, Either<E, T5>, Either<E, T6>, Either<E, T7>, Either<E, T8>> liftEither(Function7<T1, T2, T3, T4, T5, T6, T7, T8> f) {
+    public static <E,T1, T2, T3, T4, T5, T6, T7, T8> Function7<Either<E, T1>, Either<E, T2>, Either<E, T3>, Either<E, T4>, Either<E, T5>, Either<E, T6>, Either<E, T7>, Either<E, T8>> liftEither(Function7<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends T8> f) {
       return (a1, a2, a3, a4, a5, a6, a7) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.flatMap(b5 -> a6.flatMap(b6 -> a7.map(b7 -> f.apply(b1, b2, b3, b4, b5, b6, b7))))))));
     }
 
@@ -432,7 +432,7 @@ public final class Applicative {
      * @param f the function to be lifted
      * @returns a function performing the same as the input function, but operating on functors
      */
-    public static <E,T1, T2, T3, T4, T5, T6, T7, T8, T9> Function8<Either<E, T1>, Either<E, T2>, Either<E, T3>, Either<E, T4>, Either<E, T5>, Either<E, T6>, Either<E, T7>, Either<E, T8>, Either<E, T9>> liftEither(Function8<T1, T2, T3, T4, T5, T6, T7, T8, T9> f) {
+    public static <E,T1, T2, T3, T4, T5, T6, T7, T8, T9> Function8<Either<E, T1>, Either<E, T2>, Either<E, T3>, Either<E, T4>, Either<E, T5>, Either<E, T6>, Either<E, T7>, Either<E, T8>, Either<E, T9>> liftEither(Function8<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends T9> f) {
       return (a1, a2, a3, a4, a5, a6, a7, a8) -> a1.flatMap(b1 -> a2.flatMap(b2 -> a3.flatMap(b3 -> a4.flatMap(b4 -> a5.flatMap(b5 -> a6.flatMap(b6 -> a7.flatMap(b7 -> a8.map(b8 -> f.apply(b1, b2, b3, b4, b5, b6, b7, b8)))))))));
     }
 

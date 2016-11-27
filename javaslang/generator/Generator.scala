@@ -2469,6 +2469,7 @@ def generateMainClasses(): Unit = {
           case _ => s"Function$i"
         }
         val generics = (1 to i+1).gen(j => s"T$j")(", ")
+        var genericsInput = (1 to i).gen(j => s"? super T$j")(", ") + s", ? extends T${i+1}"
         val resultGenerics = (1 to i+1).gen(j => s"$typeName<T$j>")(", ")
         val params = (1 to i).gen(j => s"a$j")(", ")
         val resultParams = (1 to i).gen(j => s"b$j")(", ")
@@ -2487,7 +2488,7 @@ def generateMainClasses(): Unit = {
          * @param f the function to be lifted
          * @returns a function performing the same as the input function, but operating on functors
          */
-        public static <$generics> $functionType<$resultGenerics> lift$typeName($functionType<$generics> f) {
+        public static <$generics> $functionType<$resultGenerics> lift$typeName($functionType<$genericsInput> f) {
           return ($params) -> ${applyLevel(1)};
         }
 
@@ -2507,6 +2508,7 @@ def generateMainClasses(): Unit = {
           case _ => s"Function$i"
         }
         val generics = (1 to i+1).gen(j => s"T$j")(", ")
+        var genericsInput = (1 to i).gen(j => s"? super T$j")(", ") + s", ? extends T${i+1}"
         val resultGenerics = (1 to i+1).gen(j => s"$EitherType<E, T$j>")(", ")
         val params = (1 to i).gen(j => s"a$j")(", ")
         val resultParams = (1 to i).gen(j => s"b$j")(", ")
@@ -2525,7 +2527,7 @@ def generateMainClasses(): Unit = {
          * @param f the function to be lifted
          * @returns a function performing the same as the input function, but operating on functors
          */
-        public static <E,$generics> $functionType<$resultGenerics> lift$EitherType($functionType<$generics> f) {
+        public static <E,$generics> $functionType<$resultGenerics> lift$EitherType($functionType<$genericsInput> f) {
           return ($params) -> ${applyLevel(1)};
         }
 
