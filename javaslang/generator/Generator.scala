@@ -2481,6 +2481,12 @@ def generateMainClasses(): Unit = {
         }
         xs"""
 
+        /**
+         * Lift a function: promote it to operate on {@link $typeName} functors
+         *
+         * @param f the function to be lifted
+         * @returns a function performing the same as the input function, but operating on functors
+         */
         public static <$generics> $functionType<$resultGenerics> lift$typeName($functionType<$generics> f) {
           return ($params) -> ${applyLevel(1)};
         }
@@ -2513,6 +2519,12 @@ def generateMainClasses(): Unit = {
         }
         xs"""
 
+        /**
+         * Lift a function: promote it to operate on {@link Either} functors
+         *
+         * @param f the function to be lifted
+         * @returns a function performing the same as the input function, but operating on functors
+         */
         public static <E,$generics> $functionType<$resultGenerics> liftEither($functionType<$generics> f) {
           return ($params) -> ${applyLevel(1)};
         }
